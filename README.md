@@ -1,2 +1,5 @@
 # CPE
-Conteúdos relacionados a matéria de computação para engenharia. 
+
+Lista de exercicios de computação para engenharia.
+
+Lista 1. OK!
