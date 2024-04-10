@@ -1,5 +1,6 @@
 /*
-Lista 3, questão 2
+Lista 3,
+Questão: 2
 Aluno: Vinicius Magno da Silva Nascimento
 Matricula: 222005528
 Programa: Calcula e recomenda se deve abastecer com álcool ou gasolina
