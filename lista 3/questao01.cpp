@@ -1,5 +1,6 @@
 /*
-Lista 3, questão 01
+Lista 3
+Questão: 1
 Aluno: Vinicius Magno da Silva Nascimento
 Matricula: 222005528
 Programa: Calculadora de media/consumo por Km/L
