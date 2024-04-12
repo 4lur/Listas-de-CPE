@@ -1,6 +1,6 @@
 /*
 Lista 4
-Questão: 01, Letra B
+Questão: 01, Letra C
 Aluno: Vinicius Magno da Silva Nascimento
 Matricula: 222005528
 Programa: Calcula o valor constante e^x
