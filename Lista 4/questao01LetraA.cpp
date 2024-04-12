@@ -11,7 +11,7 @@ using namespace std;
 int main()
 {
     int n;
-
+    // Recebe valor de N
     cout<<"Digite um numero inteiro nao negativo: ";
     cin>>n;
 
