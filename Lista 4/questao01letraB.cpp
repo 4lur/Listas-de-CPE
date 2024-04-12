@@ -1,9 +1,9 @@
 /*
 Lista 4
-Questão: 1, Letra A
+Questão: 1, Letra B
 Aluno: Vinicius Magno da Silva Nascimento
 Matricula: 222005528
-Programa: Calcula fatorial
+Programa: Calcula a constante e
 */
 
 #include <iostream>
