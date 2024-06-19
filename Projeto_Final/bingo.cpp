@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <algorithm>
-#include <unistd.h> // sleep
+#include <unistd.h>
 #include "bingo.h"
 
 using namespace std;
@@ -11,27 +11,28 @@ using namespace std;
 // Construtor da classe BingoCard
 BingoCard::BingoCard()
 {
-    // Redimesiona a matriz da cartela e da marcação
     card.resize(size, vector<int>(size));
     marked.resize(size, vector<bool>(size, false));
-    generateCard(); // gera uma nova cartela
+    generateCard();
 }
 
 // Gera a cartela de Bingo com números aleatórios
 void BingoCard::generateCard()
 {
-    srand(time(0)); // Inicializa o gerador de números aleatórios
+    srand(time(0));
+    vector<int> numbers(max_number);
+    for (int i = 0; i < max_number; ++i)
+    {
+        numbers[i] = i + 1;
+    }
+    random_shuffle(numbers.begin(), numbers.end());
+
+    int index = 0;
     for (int col = 0; col < size; ++col)
     {
-        vector<int> numbers;
-        for (int i = 1; i <= 15; ++i)
-        {
-            numbers.push_back(i + col * 15);
-        }
-        random_shuffle(numbers.begin(), numbers.end()); // Embaralha os números
         for (int row = 0; row < size; ++row)
         {
-            card[row][col] = numbers[row];
+            card[row][col] = numbers[index++];
         }
     }
     card[size / 2][size / 2] = 0; // Espaço livre no centro da cartela
@@ -101,49 +102,72 @@ bool BingoCard::checkWin()
     return diag1 || diag2;
 }
 
+// Sobrecarga do operador de comparação para cartelas
+bool BingoCard::operator==(const BingoCard &other) const
+{
+    return this->card == other.card;
+}
+
+// Construtor da classe Player
+Player::Player(const string &name) : name(name), card() {}
+
 // Construtor da classe BingoGame
-BingoGame::BingoGame() : card(), drawCount(0) {}
+BingoGame::BingoGame(const vector<string> &playerNames) : drawsCount(0)
+{
+    for (const auto &name : playerNames)
+    {
+        players.emplace_back(name);
+    }
+}
 
 // Método principal do jogo
 void BingoGame::play()
 {
-    while (!card.checkWin())
+    bool gameWon = false;
+
+    while (!gameWon)
     {
         int number = drawNumber();
-        cout << "\nNumero escolhido: " << number << endl;
-        card.markNumber(number);
-        card.displayCard();
+        cout << "Numero sorteado: " << number << endl;
 
-        // Delay para sortear um número
-        for (int i = 0; i < 1; ++i)
+        for (auto &player : players)
         {
-            cout << "\b\b\b\b\b\b\b\b\b\b\b\bSorteando   " << flush;
-            sleep(1);
-            cout << "\b\b\b\b\b\b\b\b\b\b\b\bSOrteando   " << flush;
-            sleep(1);
-            cout << "\b\b\b\b\b\b\b\b\b\b\b\bSoRteando   " << flush;
-            sleep(1);
-            cout << "\b\b\b\b\b\b\b\b\b\b\b\bSorTeando   " << flush;
-            sleep(1);
-            cout << "\b\b\b\b\b\b\b\b\b\b\b\bSortEando   " << flush;
-            sleep(1);
-            cout << "\b\b\b\b\b\b\b\b\b\b\b\bSorteAndo   " << flush;
-            sleep(1);
-            cout << "\b\b\b\b\b\b\b\b\b\b\b\bSorteaNdo   " << flush;
-            sleep(1);
-            cout << "\b\b\b\b\b\b\b\b\b\b\b\bSorteanDo   " << flush;
-            sleep(1);
-            cout << "\b\b\b\b\b\b\b\b\b\b\b\bSorteandO   " << flush;
-            sleep(1);
-            cout << "\b\b\b\b\b\b\b\b\b\b\b\bSorteando.  " << flush;
-            sleep(1);
-            cout << "\b\b\b\b\b\b\b\b\b\b\b\bSorteando.. " << flush;
-            sleep(1);
-            cout << "\b\b\b\b\b\b\b\b\b\b\b\bSorteando..." << flush;
-            sleep(1);
+            player.card.markNumber(number);
+            cout << "Cartela do " << player.name << endl;
+            player.card.displayCard();
+            if (player.card.checkWin())
+            {
+                cout << "Bingo! Jogador " << player.name << " ganhou apos " << drawsCount << " numeros sorteados" << endl;
+                gameWon = true;
+                break;
+            }
         }
+        cout << "\b\b\b\b\b\b\b\b\b\b\b\bSorteando   " << flush;
+        sleep(1);
+        cout << "\b\b\b\b\b\b\b\b\b\b\b\bSOrteando   " << flush;
+        sleep(1);
+        cout << "\b\b\b\b\b\b\b\b\b\b\b\bSoRteando   " << flush;
+        sleep(1);
+        cout << "\b\b\b\b\b\b\b\b\b\b\b\bSorTeando   " << flush;
+        sleep(1);
+        cout << "\b\b\b\b\b\b\b\b\b\b\b\bSortEando   " << flush;
+        sleep(1);
+        cout << "\b\b\b\b\b\b\b\b\b\b\b\bSorteAndo   " << flush;
+        sleep(1);
+        cout << "\b\b\b\b\b\b\b\b\b\b\b\bSorteaNdo   " << flush;
+        sleep(1);
+        cout << "\b\b\b\b\b\b\b\b\b\b\b\bSorteanDo   " << flush;
+        sleep(1);
+        cout << "\b\b\b\b\b\b\b\b\b\b\b\bSorteandO   " << flush;
+        sleep(1);
+        cout << "\b\b\b\b\b\b\b\b\b\b\b\bSorteando.  " << flush;
+        sleep(1);
+        cout << "\b\b\b\b\b\b\b\b\b\b\b\bSorteando.. " << flush;
+        sleep(1);
+        cout << "\b\b\b\b\b\b\b\b\b\b\b\bSorteando..." << flush;
+        sleep(1);
+        cout << "\n                                              Ja Foram " << drawsCount << " Numeros sorteados!" << endl;
     }
-    cout << "\nBingoo!, voce ganou apos: " << drawCount << " Numeros sortidos!" << endl;
 }
 
 // Sorteia um número aleatório que ainda não foi sorteado
@@ -155,6 +179,20 @@ int BingoGame::drawNumber()
         number = rand() % max_number + 1;
     } while (find(numbersDrawn.begin(), numbersDrawn.end(), number) != numbersDrawn.end());
     numbersDrawn.push_back(number);
-    drawCount++;
+    drawsCount++;
     return number;
 }
+
+//
+BingoCard BingoGame::generateUniqueCard()
+{
+    BingoCard newCard;
+    // Gera uma nova cartela até que seja diferente de todas as cartelas existentes
+    do
+    {
+        newCard.generateCard();
+    } while (any_of(players.begin(), players.end(), [&newCard](const Player &player)
+                    { return player.card == newCard; }));
+
+    return newCard;
+};
