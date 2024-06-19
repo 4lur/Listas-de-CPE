@@ -90,30 +90,46 @@ bool BingoCard::checkWin()
     return diag1 || diag2;
 }
 
-BingoGame::BingoGame() : card() {}
+BingoGame::BingoGame() : card(), drawCount(0) {}
 
 void BingoGame::play()
 {
     while (!card.checkWin())
     {
         int number = drawNumber();
-        cout << "Numero escolhido: " << number << endl;
+        cout << "\nNumero escolhido: " << number << endl;
         card.markNumber(number);
         card.displayCard();
-        cout << '-' << flush;
+
         for (int i = 0; i < 1; ++i)
         {
+            cout << "\b\b\b\b\b\b\b\b\b\b\b\bSorteando   " << flush;
             sleep(1);
-            cout << "\b\\" << flush;
+            cout << "\b\b\b\b\b\b\b\b\b\b\b\bSOrteando   " << flush;
             sleep(1);
-            cout << "\b|" << flush;
+            cout << "\b\b\b\b\b\b\b\b\b\b\b\bSoRteando   " << flush;
             sleep(1);
-            cout << "\b/" << flush;
+            cout << "\b\b\b\b\b\b\b\b\b\b\b\bSorTeando   " << flush;
             sleep(1);
-            cout << "\b-" << flush;
+            cout << "\b\b\b\b\b\b\b\b\b\b\b\bSortEando   " << flush;
+            sleep(1);
+            cout << "\b\b\b\b\b\b\b\b\b\b\b\bSorteAndo   " << flush;
+            sleep(1);
+            cout << "\b\b\b\b\b\b\b\b\b\b\b\bSorteaNdo   " << flush;
+            sleep(1);
+            cout << "\b\b\b\b\b\b\b\b\b\b\b\bSorteanDo   " << flush;
+            sleep(1);
+            cout << "\b\b\b\b\b\b\b\b\b\b\b\bSorteandO   " << flush;
+            sleep(1);
+            cout << "\b\b\b\b\b\b\b\b\b\b\b\bSorteando.  " << flush;
+            sleep(1);
+            cout << "\b\b\b\b\b\b\b\b\b\b\b\bSorteando.. " << flush;
+            sleep(1);
+            cout << "\b\b\b\b\b\b\b\b\b\b\b\bSorteando..." << flush;
+            sleep(1);
         }
     }
-    cout << "Bingoo!" << endl;
+    cout << "Bingoo!, voce ganou apos: " << drawCount << " Numeros sortidos!" << endl;
 }
 
 int BingoGame::drawNumber()
@@ -124,5 +140,6 @@ int BingoGame::drawNumber()
         number = rand() % max_number + 1;
     } while (find(numbersDrawn.begin(), numbersDrawn.end(), number) != numbersDrawn.end());
     numbersDrawn.push_back(number);
+    drawCount++;
     return number;
 }
