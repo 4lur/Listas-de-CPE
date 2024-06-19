@@ -3,6 +3,7 @@
 
 using namespace std;
 
+// Função que exibe o menu
 void showMenu()
 {
     cout << "===== Menu =====" << endl;
@@ -19,20 +20,20 @@ int main()
 
     while (!sair)
     {
-        showMenu();
-        cin >> choice;
+        showMenu();    // Exibe o menu
+        cin >> choice; // Lê a escolha do usuário
 
         switch (choice)
         {
         case 1:
         {
-            BingoGame game;
-            game.play();
+            BingoGame game; // Cria uma instância do jogo
+            game.play();    // Inicia o jogo
         }
         break;
         case 2:
             cout << "Saindo do jogo!" << endl;
-            sair = true;
+            sair = true; // Seta a flag de saída para true
             break;
         default:
             cout << "Opcao invalida, tente novamente: " << endl;
