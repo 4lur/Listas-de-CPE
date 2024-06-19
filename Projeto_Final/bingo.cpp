@@ -8,16 +8,19 @@
 
 using namespace std;
 
+// Construtor da classe BingoCard
 BingoCard::BingoCard()
 {
+    // Redimesiona a matriz da cartela e da marcação
     card.resize(size, vector<int>(size));
     marked.resize(size, vector<bool>(size, false));
-    generateCard();
+    generateCard(); // gera uma nova cartela
 }
 
+// Gera a cartela de Bingo com números aleatórios
 void BingoCard::generateCard()
 {
-    srand(time(0));
+    srand(time(0)); // Inicializa o gerador de números aleatórios
     for (int col = 0; col < size; ++col)
     {
         vector<int> numbers;
@@ -25,16 +28,17 @@ void BingoCard::generateCard()
         {
             numbers.push_back(i + col * 15);
         }
-        random_shuffle(numbers.begin(), numbers.end());
+        random_shuffle(numbers.begin(), numbers.end()); // Embaralha os números
         for (int row = 0; row < size; ++row)
         {
             card[row][col] = numbers[row];
         }
     }
-    card[size / 2][size / 2] = 0; // Espaço no meio
+    card[size / 2][size / 2] = 0; // Espaço livre no centro da cartela
     marked[size / 2][size / 2] = true;
 }
 
+// Exibe a cartela de Bingo
 void BingoCard::displayCard()
 {
     cout << "B   I   N   G   O\n";
@@ -52,6 +56,7 @@ void BingoCard::displayCard()
     }
 }
 
+// Marca um número na cartela
 bool BingoCard::markNumber(int number)
 {
     for (int i = 0; i < size; ++i)
@@ -68,18 +73,24 @@ bool BingoCard::markNumber(int number)
     return false;
 }
 
+// Verifica se a cartela tem uma linha, coluna ou diagonal completa
 bool BingoCard::checkWin()
 {
+    // Verifica as linhas
     for (int i = 0; i < size; ++i)
     {
         if (all_of(marked[i].begin(), marked[i].end(), [](bool v)
                    { return v; }))
             return true;
+    }
+    // Verifica as colunas
+    for (int i = 0; i < size; ++i)
+    {
         if (all_of(marked.begin(), marked.end(), [i](vector<bool> &v)
                    { return v[i]; }))
             return true;
     }
-
+    // Verifica as diagonais
     bool diag1 = true, diag2 = true;
     for (int i = 0; i < size; ++i)
     {
@@ -90,8 +101,10 @@ bool BingoCard::checkWin()
     return diag1 || diag2;
 }
 
+// Construtor da classe BingoGame
 BingoGame::BingoGame() : card(), drawCount(0) {}
 
+// Método principal do jogo
 void BingoGame::play()
 {
     while (!card.checkWin())
@@ -101,6 +114,7 @@ void BingoGame::play()
         card.markNumber(number);
         card.displayCard();
 
+        // Delay para sortear um número
         for (int i = 0; i < 1; ++i)
         {
             cout << "\b\b\b\b\b\b\b\b\b\b\b\bSorteando   " << flush;
@@ -129,9 +143,10 @@ void BingoGame::play()
             sleep(1);
         }
     }
-    cout << "Bingoo!, voce ganou apos: " << drawCount << " Numeros sortidos!" << endl;
+    cout << "\nBingoo!, voce ganou apos: " << drawCount << " Numeros sortidos!" << endl;
 }
 
+// Sorteia um número aleatório que ainda não foi sorteado
 int BingoGame::drawNumber()
 {
     int number;
